@@ -8,7 +8,7 @@ float noiseScale = 0.5;
 
 void setup() {
   size(800, 600, P3D);
-  streamer = new MeshStreamer();
+  streamer = new MeshStreamer("Wat deluxe", "Aint no purdybot", 0);
 } //<>//
 
 
