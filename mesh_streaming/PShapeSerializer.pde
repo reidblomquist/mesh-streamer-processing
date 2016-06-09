@@ -18,8 +18,8 @@ class PShapeSerializer {
     
     int headerDataByteCount   = 16;
     int positionDataByteCount = positionCount * 3 * 4;
-    int colorDataByteCount    = colorCount * 3 * 3;
-    int indexDataByteCount    = indexCount * 2;
+    int colorDataByteCount    = colorCount * 3;
+    int indexDataByteCount    = indexCount * 3 * 2;
     
     int packetSize = headerDataByteCount + positionDataByteCount + colorDataByteCount + indexDataByteCount;
     
@@ -30,15 +30,13 @@ class PShapeSerializer {
     int endOfMarker = marker.length;
     putInt16(packet, endOfMarker, positionCount);
     putInt16(packet, endOfMarker + 2, colorCount);
-    putInt16(packet, endOfMarker + 4, indexCount);
+    putInt16(packet, endOfMarker + 4, indexCount / 3);
     
     int positionDataStart = 16;
     int colorDataStart    = positionDataStart + positionDataByteCount;
     int indexDataStart    = colorDataStart + colorDataByteCount;
     
-    println("Shape has " + shape.getVertexCount() + " vertices.");
-
-    for(int i = 0; i < shape.getVertexCount(); i++) {
+    for(int i = 0; i < shape.getVertexCount(); i++) { //<>//
 
       PVector position = shape.getVertex(i);
       int vertexColor  = shape.getFill(i);
@@ -56,7 +54,7 @@ class PShapeSerializer {
       packet[colorDataStart + (i * 3) + 1] = g;
       packet[colorDataStart + (i * 3) + 2] = b;
       
-      putInt16(packet, indexDataStart + (i*2), i);
+      putInt16(packet, indexDataStart + (i * 2), i);
     }
     
     
