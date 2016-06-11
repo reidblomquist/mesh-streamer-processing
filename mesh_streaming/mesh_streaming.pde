@@ -13,7 +13,7 @@ void setup() {
 
 
 void draw() {
-  float time = millis() * 0.001;
+  float time = millis() * 0.002;
   
   // Generate a noisy grid
   
@@ -22,22 +22,21 @@ void draw() {
   shape.noStroke();
   
   float halfGridWidth = (gridSize * scale) / 2;
+  float worldScale = 6;
   
-  scale(10,10,10);
-  
-  // WHY?!?!
-  camera(0, 20, 80, 
+  camera(50, -50, 70, 
     0.0, 0.0, 0.0,  
-    0.0, -1.0, 0.0);
+    0.0, 1.0, 0.0);
+ 
+  scale(worldScale, worldScale, worldScale);
   
   for(int x = 0; x < gridSize; x++){
     for(int y = 0; y < gridSize; y++){
-      println((x * scale) - halfGridWidth);
       // first triangle
       shape.fill(float(x) / gridSize * 255, float(y) / gridSize * 255, 128);
       
       shape.vertex((x * scale) - halfGridWidth,       noise(x * noiseScale, y * noiseScale, time) * scale,           (y * scale) - halfGridWidth );
-      shape.vertex(x * scale - halfGridWidth,         noise(x * noiseScale, (y+1) * noiseScale, time) * scale,       (y + 1) * scale - halfGridWidth);
+      shape.vertex((x * scale) - halfGridWidth,         noise(x * noiseScale, (y+1) * noiseScale, time) * scale,       (y + 1) * scale - halfGridWidth);
       shape.vertex((x+1) * scale - halfGridWidth,     noise((x+1) * noiseScale, (y+1) * noiseScale, time) * scale,   (y + 1) * scale - halfGridWidth);
       
       
@@ -53,8 +52,7 @@ void draw() {
   shape.endShape();
   
   // Draw the shape in the center of the view
-  background(64);
-  translate(-gridSize * scale / 2, -gridSize * scale / 2);
+  background(40);
   shape(shape);
   
   // Hand the shape to the streamer so it can convert it to the binary message format and send it.
